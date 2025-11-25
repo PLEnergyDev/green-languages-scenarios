@@ -1,0 +1,38 @@
+name: division-loop
+language: cpp
+code: |
+    #include <iostream>
+    #include <cstdlib>
+    #include <measurements.h>
+
+    void run_benchmark(int argc, char **argv) {
+        int m = std::atoi(argv[1]);
+        double sum = 0.0;
+        int n = 0;
+        while (sum < m) {
+            n++;
+            sum += 1.0 / n;
+        }
+        std::cout << n << std::endl;
+    }
+
+    int main(int argc, char **argv) {
+        while (1) {
+            if (!start_measurement()) break;
+            run_benchmark(argc, argv);
+            end_measurement();
+        }
+        return 0;
+    }
+arguments: [20]
+compile_options: [-pipe, -O3, -march=native, -fomit-frame-pointer]
+expected_stdout: !!binary |
+    MjcyNDAwNjAwCg==
+niceness: -20
+affinity: [6]
+---
+name: optimized
+measurement_mode: internal
+---
+name: optimized
+measurement_mode: external
