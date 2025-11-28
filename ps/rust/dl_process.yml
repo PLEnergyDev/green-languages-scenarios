@@ -1,0 +1,24 @@
+name: division-loop
+language: rust
+code: |
+    fn main() {
+        let args: Vec<String> = std::env::args().skip(1).collect();
+        let m: i32 = args.get(0)
+            .expect("Missing argument")
+            .parse()
+            .expect("Invalid integer");
+        let mut sum = 0.0;
+        let mut n = 0;
+        while sum < m as f64 {
+            n += 1;
+            sum += 1.0 / n as f64;
+        }
+        println!("{}", n);
+    }
+arguments: [20]
+compile_options: [--release]
+expected_stdout: !!binary MjcyNDAwNjAwCg==
+niceness: -20
+affinity: [5]
+---
+name: release

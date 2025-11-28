@@ -1,19 +1,19 @@
 name: division-loop
-language: c
+language: cpp
 code: |
-    #include <stdio.h>
-    #include <stdlib.h>
+    #include <iostream>
+    #include <cstdlib>
     #include <measurements.h>
 
     void run_benchmark(int argc, char **argv) {
-        int m = atoi(argv[1]);
+        int m = std::atoi(argv[1]);
         double sum = 0.0;
         int n = 0;
         while (sum < m) {
             n++;
             sum += 1.0 / n;
         }
-        printf("%d\n", n);
+        std::cout << n << std::endl;
     }
 
     int main(int argc, char **argv) {
