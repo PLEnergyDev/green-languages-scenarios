@@ -195,7 +195,7 @@ compile_options: [-server]
 expected_stdout: !!binary |
     LTAuMTY5MDc1MTY0Ci0wLjE2OTA1OTkwNwo=
 niceness: -20
-affinity: [6]
+affinity: [5]
 ---
 name: server
 measurement_mode: internal

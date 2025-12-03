@@ -21,6 +21,7 @@ compile_options:
     - -p:AllowUnsafeBlocks=true
     - -p:ServerGarbageCollection=true
     - -p:ConcurrentGarbageCollection=true
+    - -p:UseSharedCompilation=false
     - -p:OptimizationPreference=Speed
     - -p:IlcInstructionSet=native
 nicencess: -20

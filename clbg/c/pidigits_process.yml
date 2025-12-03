@@ -379,6 +379,6 @@ expected_stdout: !!binary |
     NDgJOjk5NjAKMzY5OTk4OTIyNQk6OTk3MAo2OTU5Njg4MTU5CTo5OTgwCjIwNTYwMDEwMTYJOjk5
     OTAKNTUyNTYzNzU2Nwk6MTAwMDAK
 niceness: -20
-affinity: [6]
+affinity: [5]
 ---
 name: optimized

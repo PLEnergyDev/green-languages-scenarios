@@ -83,8 +83,8 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/bi
             }
         }
     }
-framework: net9.0
 arguments: [21]
+framework: net9.0
 compile_options:
     - -c Release
     - -p:ImplicitUsings=enable
