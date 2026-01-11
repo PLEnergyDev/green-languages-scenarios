@@ -12,62 +12,20 @@ deps=(
     "boost"
 )
 libs=("htslib.out" "gmp.out" "apr.out" "pcre2.out" "boost.out")
-single_threaded=(
+single=(
     "pidigits" "n_body" # CLBG
     "dl" "mm" "pe"      # PS
 )
-multi_threaded=(
+multi=(
     "binary_trees" "fannkuch_redux" "fasta" "k_nucleotide" "mandelbrot" \
     "regex_redux" "reverse_complement" "spectral_norm" # CLBG
 )
 root_dirs=(
-    clbg/c clbg/cpp clbg/cs clbg/java
-    ps/c ps/cpp ps/cs ps/java
+    clbg/lab/c clbg/lab/cpp clbg/lab/cs clbg/lab/java
+    ps/lab/c ps/lab/cpp ps/lab/cs ps/lab/java
 )
-
-for pkg in "${libs[@]}"; do
-  args+=(-A "$pkg")
-done
-paths=$(nix-build '<nixpkgs>' "${args[@]}" --no-out-link)
-paths=$(echo "$paths" | sed 's|$|/lib|' | paste -sd: -)
-dotnet_root=$(nix-build '<nixpkgs>' -A dotnetCorePackages.sdk_9_0.unwrapped --no-out-link)/share/dotnet
-
-shopt -s globstar nullglob
-
-mapfile -t single_threaded_scenarios < <(
-  for name in "${single_threaded[@]}"; do
-    for d in "${root_dirs[@]}"; do
-      printf '%s\n' "$d"/**/"${name}"*_process.yml
-    done
-  done
-)
-
-mapfile -t multi_threaded_scenarios < <(
-  for name in "${multi_threaded[@]}"; do
-    for d in "${root_dirs[@]}"; do
-      printf '%s\n' "$d"/**/"${name}"*_process.yml
-    done
-  done
-)
-
-mapfile -t shuffled_single < <(printf '%s\n' "${single_threaded_scenarios[@]}" | shuf)
-mapfile -t shuffled_multi  < <(printf '%s\n' "${multi_threaded_scenarios[@]}" | shuf)
-
-cleanup() {
-    sudo glp cpu enable
-    sudo glp cpu enable ht
-    sudo glp cpu enable cs
-    sudo glp aslr enable
-    sudo swapon -a
-    sudo glp profile i7_8700_default
-    sudo glp profile i7_8700_default
-}
-
-trap cleanup EXIT INT TERM
 
 measure() {
-    local out_csv="$1"
-    shift
     local -a scenarios=("$@")
 
     NIX_ENFORCE_NO_NATIVE="" \
@@ -76,31 +34,74 @@ measure() {
     GL_CPATH="$paths" \
     DOTNET_ROOT="$dotnet_root" \
     nix-shell -p "${deps[@]}" "${libs[@]}" --run \
-        "gl ${scenarios[*]} --rapl --misses --cycles --cstates -i60 -s60 -o $out_csv"
+        "gl ${scenarios[*]} --rapl --misses --cycles --cstates -i60 -s10"
 }
 
-sudo glp cpu enable
-sudo glp aslr disable
-sudo swapoff -a
-sudo glp cpu disable ht
-sudo glp cpu disable cs
+# Lab Setup for Intel i7_8700
+i7_8700_active_power_profile() {
+    glp cpu enable
+    glp cpu disable ht
+    glp cpu disable cs
+    glp cache drop
+    glp aslr disable
+    swapoff -a
+    glp profile i7_8700_active_power
+    glp profile i7_8700_active_power
+}
 
-sudo glp profile i7_8700_active_power
-sudo glp profile i7_8700_active_power
-measure results/active_power.csv "${shuffled_multi[@]}"
-# measure results/active_power.csv "${shuffled_single[@]}"
+# User Setup for Intel i7_8700
+i7_8700_active_user_profile() {
+    glp cpu enable
+    glp cpu enable ht
+    glp cpu enable cs
+    glp aslr enable
+    swapon -a
+    glp profile i7_8700_active_user
+    glp profile i7_8700_active_user
+}
 
-sudo glp profile i7_8700_passive_power
-sudo glp profile i7_8700_passive_power
-measure results/passive_power.csv "${shuffled_multi[@]}"
-# measure results/passive_power.csv "${shuffled_single[@]}"
+cleanup() {
+    pkill -fi "stress-ng"
+    i7_8700_active_user_profile
+}
 
-# sudo glp profile i7_8700_active_performance
-# sudo glp profile i7_8700_active_performance
-# measure results/active_performance.csv "${shuffled_multi[@]}"
-# measure results/active_performance.csv "${shuffled_single[@]}"
+main() {
+    trap cleanup EXIT INT TERM
 
-# sudo glp profile i7_8700_passive_performance
-# sudo glp profile i7_8700_passive_performance
-# measure results/passive_performance.csv "${shuffled_multi[@]}"
-# measure results/passive_performance.csv "${shuffled_single[@]}"
+    for pkg in "${libs[@]}"; do
+        args+=(-A "$pkg")
+    done
+    paths=$(nix-build '<nixpkgs>' "${args[@]}" --no-out-link)
+    paths=$(echo "$paths" | sed 's|$|/lib|' | paste -sd: -)
+    dotnet_root=$(nix-build '<nixpkgs>' -A dotnetCorePackages.sdk_9_0.unwrapped --no-out-link)/share/dotnet
+
+    shopt -s globstar nullglob
+
+    mapfile -t single_scenarios < <(
+        for name in "${single[@]}"; do
+            for d in "${root_dirs[@]}"; do
+                printf '%s\n' "$d"/**/"${name}"*_process.yml
+            done
+        done
+    )
+
+    mapfile -t multi_scenarios < <(
+        for name in "${multi[@]}"; do
+            for d in "${root_dirs[@]}"; do
+                printf '%s\n' "$d"/**/"${name}"*_process.yml
+            done
+        done
+    )
+
+    mapfile -t shuffled_single < <(printf '%s\n' "${single_scenarios[@]}" | shuf)
+    mapfile -t shuffled_multi  < <(printf '%s\n' "${multi_scenarios[@]}" | shuf)
+
+    i7_8700_active_power_profile
+
+    nix-shell -p stress-ng --run "stress-ng --cpu 2 --cpu-load 15 --iomix 1 --vm 1 --hdd 1 --timeout 0" & sleep 5
+
+    # measure "${shuffled_single[@]}" "${shuffled_multi[@]}"
+    measure "${shuffled_multi[@]}"
+}
+
+main

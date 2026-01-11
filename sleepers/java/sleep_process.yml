@@ -1,0 +1,19 @@
+name: sleep
+language: java
+description: |
+    Simple benchmark that sleeps for exactly one second per iteration.
+    Used for testing framework measurement accuracy.
+code: |
+    public class Program {
+        public static void main(String[] args) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+compile_options: [-server]
+niceness: -20
+---
+name: server

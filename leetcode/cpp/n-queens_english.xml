@@ -1,0 +1,40 @@
+<instructions>
+  <instruction>You are an expert at sovling programming problems</instruction>
+  <instruction>Wrap your soluiton in <code> and </code> tags</instruction>
+  <instruction>Generate solutions that exactly match requirements</instruction>
+  <instruction>Solution MUST prioritize energy efficiency for the hardware provided</instruction>
+</instructions>
+
+<name>n-queens</name>
+<language>cpp</language>
+<description>The n-queens puzzle ...</description>
+<hardware>Intel i7-8700, 16GB RAM, L1d/L1i: 192KiB×6, L2: 1.5MiB×6, L3: 12MiB</hardware>
+<dependencies>[{"name": "gcc15", "version": "15.1.0"}]</dependencies>
+<compile_options>[{"-pipe", "-O3", "-march=native", "-fomit-frame-pointer"]</compile_options>
+
+<tests>
+  <test>
+    <arguments>["4"]</arguments>
+    <stdin></stdin>
+    <expected_stdout>[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]</expected_stdout>
+  </test>
+</tests>
+
+<examples>
+  <example>
+    <name>optimizirano-množenje-matrica</name>
+    <language>cpp</language>
+    <description>Pomnožite dvije matrice i ispišite sadržaj zadnje ćelije.</description>
+    <hardware>Intel i7-8700, 16GB RAM, L1d/L1i: 192KiB×6, L2: 1.5MiB×6, L3: 12MiB</hardware>
+    <dependencies>[{"name": "gcc15", "version": "15.1.0"}]</dependencies>
+    <code>
+      int main(int argc, char *argv[]) {
+        int n = std::stoi(argv[1]);
+        // Prilagođeno za asocijativnost predmemorije i drugi trošak]
+        const int L1_BLOCK_SIZE = 64;  // Veličina bloka prilagođena L1 predmemoriji
+        // L2 blok: Veće blokiranje za iskorištavanje L2 predmemorije]
+        const int L2_BLOCK_SIZE = 256; // Veličina bloka prilagođena L2 predmemoriji
+        ...
+    </code>
+  </example>
+</examples>

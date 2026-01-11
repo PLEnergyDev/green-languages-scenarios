@@ -1,0 +1,29 @@
+name: sleep
+language: cs
+description: |
+    Simple benchmark that sleeps for exactly one second per iteration.
+    Used for testing framework measurement accuracy.
+code: |
+    using System;
+    using System.Threading;
+    using System.Runtime.InteropServices;
+
+    class Program{
+        static void Main(string[] args) {
+            Thread.Sleep(1000);
+        }
+    }
+framework: net9.0
+compile_options:
+    - -c Release
+    - -p:ImplicitUsings=enable
+    - -p:Nullable=enable
+    - -p:AllowUnsafeBlocks=true
+    - -p:ServerGarbageCollection=true
+    - -p:ConcurrentGarbageCollection=true
+    - -p:UseSharedCompilation=false
+    - -p:OptimizationPreference=Speed
+    - -p:IlcInstructionSet=native
+niceness: -20
+---
+name: release

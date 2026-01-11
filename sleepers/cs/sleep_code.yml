@@ -1,0 +1,43 @@
+name: sleep
+language: cs
+description: |
+    Simple benchmark that sleeps for exactly one second per iteration.
+    Used for testing framework measurement accuracy.
+code: |
+    using System;
+    using System.Threading;
+    using System.Runtime.InteropServices;
+
+    class Program{
+        [DllImport("libmeasurements", EntryPoint = "start_measurement")]
+        static extern bool start_measurement();
+
+        [DllImport("libmeasurements", EntryPoint = "end_measurement")]
+        static extern void end_measurement();
+
+        static void Main(string[] args) {
+            while (true) {
+                if (!start_measurement()) break;
+                Thread.Sleep(1000);
+                end_measurement();
+            }
+        }
+    }
+framework: net9.0
+compile_options:
+    - -c Release
+    - -p:ImplicitUsings=enable
+    - -p:Nullable=enable
+    - -p:AllowUnsafeBlocks=true
+    - -p:ServerGarbageCollection=true
+    - -p:ConcurrentGarbageCollection=true
+    - -p:UseSharedCompilation=false
+    - -p:OptimizationPreference=Speed
+    - -p:IlcInstructionSet=native
+niceness: -20
+---
+name: release
+measurement_mode: internal
+---
+name: release
+measurement_mode: external
