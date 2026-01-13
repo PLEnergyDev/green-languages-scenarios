@@ -39,8 +39,7 @@ enter_i7_8700_lab() {
     green-languages-profiles cache drop
     green-languages-profiles aslr disable
     swapoff -a
-    green-languages-profiles profile i7_8700_active_power
-    green-languages-profiles profile i7_8700_active_power
+    # green-languages-profiles profile i7_8700_active_power
 }
 
 # User Setup for Intel i7_8700
@@ -50,8 +49,7 @@ enter_i7_8700_user() {
     green-languages-profiles cpu enable cs
     green-languages-profiles aslr enable
     swapon -a
-    green-languages-profiles profile i7_8700_active_user
-    green-languages-profiles profile i7_8700_active_user
+    # green-languages-profiles profile i7_8700_active_user
 }
 
 # Synthetic workload
