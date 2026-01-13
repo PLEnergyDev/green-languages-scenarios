@@ -1,0 +1,10 @@
+scenario,language,test,nice,affinity,mode,iteration,time,pkg,cores,gpu,ram,psys,cycles,l1d_misses,l1i_misses,llc_misses,branch_misses,c1_core_residency,c3_core_residency,c6_core_residency,c7_core_residency,c2_pkg_residency,c3_pkg_residency,c6_pkg_residency,c8_pkg_residency,c10_pkg_residency,ended
+division-loop,java,server,-20,5,process,1,540854,,,,,,,,,,,,,,,,,,,,1768225847228719
+division-loop,java,server,-20,5,process,1,538567,,,,,,,,,,,,,,,,,,,,1768225862771165
+division-loop,java,server,-20,5,process,2,533425,,,,,,,,,,,,,,,,,,,,1768225863305112
+division-loop,java,server,-20,5,process,1,556669,,,,,,,,,,,,,,,,,,,,1768226897016644
+division-loop,java,server,-20,5,process,2,550149,,,,,,,,,,,,,,,,,,,,1768226897567034
+division-loop,java,server,-20,5,internal,1,509081,,,,,,,,,,,,,,,,,,,,1768227557679592
+division-loop,java,server,-20,5,internal,2,496262,,,,,,,,,,,,,,,,,,,,1768227558175934
+division-loop,java,server,-20,5,external,1,511259,,,,,,,,,,,,,,,,,,,,1768227558962573
+division-loop,java,server,-20,5,external,2,511583,,,,,,,,,,,,,,,,,,,,1768227559497931
