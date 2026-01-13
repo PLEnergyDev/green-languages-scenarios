@@ -1,24 +1,34 @@
 #!/bin/bash
 
-clbg_single=()
-while IFS= read -r line; do
-  clbg_single+=("$line")
-done < <(
-  find clbg -type f \( -name "pidigits.yml" -o -name "n_body.yml" \) | shuf
+clbg_lab_single=()
+while IFS= read -r line; do clbg_lab_single+=("$line"); done < <(
+  find clbg/lab -type f \( -name "pidigits.yml" -o -name "n_body.yml" \) | shuf
 )
-clbg_multi=()
-while IFS= read -r line; do
-  clbg_multi+=("$line")
-done < <(
-  find clbg -type f \( -name "binary_trees.yml" -o -name "fannkuch_redux.yml" \
+clbg_lab_multi=()
+while IFS= read -r line; do clbg_lab_multi+=("$line"); done < <(
+  find clbg/lab -type f \( -name "binary_trees.yml" -o -name "fannkuch_redux.yml" \
     -o -name "fasta.yml" -o -name "k_nucleotide.yml" -o -name "mandelbrot.yml" \
     -o -name "regex_redux.yml" -o -name "reverse_complement.yml" -o -name "spectral_norm.yml" \) | shuf
 )
-ps_single=()
-while IFS= read -r line; do
-  ps_single+=("$line")
-done < <(
-  find ps -type f \( -name "dl.yml" -o -name "mm.yml" -o -name "pe.yml" \) | shuf
+
+clbg_user_single=()
+while IFS= read -r line; do clbg_user_single+=("$line"); done < <(
+  find clbg/user -type f \( -name "pidigits.yml" -o -name "n_body.yml" \) | shuf
+)
+clbg_user_multi=()
+while IFS= read -r line; do clbg_user_multi+=("$line"); done < <(
+  find clbg/user -type f \( -name "binary_trees.yml" -o -name "fannkuch_redux.yml" \
+    -o -name "fasta.yml" -o -name "k_nucleotide.yml" -o -name "mandelbrot.yml" \
+    -o -name "regex_redux.yml" -o -name "reverse_complement.yml" -o -name "spectral_norm.yml" \) | shuf
+)
+
+ps_lab_single=()
+while IFS= read -r line; do ps_lab_single+=("$line"); done < <(
+  find ps/lab -type f \( -name "dl.yml" -o -name "mm.yml" -o -name "pe.yml" \) | shuf
+)
+ps_user_single=()
+while IFS= read -r line; do ps_user_single+=("$line"); done < <(
+  find ps/user -type f \( -name "dl.yml" -o -name "mm.yml" -o -name "pe.yml" \) | shuf
 )
 
 # Lab Setup for Intel i7_8700
