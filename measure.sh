@@ -33,23 +33,23 @@ while IFS= read -r line; do ps_user_single+=("$line"); done < <(
 
 # Lab Setup for Intel i7_8700
 enter_i7_8700_lab() {
-    green-languages-profiles cpu enable
-    green-languages-profiles cpu disable ht
-    green-languages-profiles cpu disable cs
-    green-languages-profiles cache drop
-    green-languages-profiles aslr disable
+    green-languages-setups cpu enable
+    green-languages-setups cpu disable ht
+    green-languages-setups cpu disable cs
+    green-languages-setups cache drop
+    green-languages-setups aslr disable
     swapoff -a
-    # green-languages-profiles profile i7_8700_active_power
+    # green-languages-setups setup i7_8700_active_power
 }
 
 # User Setup for Intel i7_8700
 enter_i7_8700_user() {
-    green-languages-profiles cpu enable
-    green-languages-profiles cpu enable ht
-    green-languages-profiles cpu enable cs
-    green-languages-profiles aslr enable
+    green-languages-setups cpu enable
+    green-languages-setups cpu enable ht
+    green-languages-setups cpu enable cs
+    green-languages-setups aslr enable
     swapon -a
-    # green-languages-profiles profile i7_8700_active_user
+    # green-languages-setups setup i7_8700_active_user
 }
 
 # Synthetic workload
