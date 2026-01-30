@@ -3,7 +3,7 @@ language: c
 code: |
     #include <stdio.h>
     #include <stdlib.h>
-    #include <measurements.h>
+    #include <signals.h>
 
     void run_benchmark(int argc, char **argv) {
         int degree = atoi(argv[1]);
@@ -30,9 +30,9 @@ code: |
 
     int main(int argc, char **argv) {
         while (1) {
-            if (!start_measurement()) break;
+            if (!start_gl()) break;
             run_benchmark(argc, argv);
-            end_measurement();
+            end_gl();
         }
         return 0;
     }
@@ -43,7 +43,7 @@ niceness: -20
 affinity: [5]
 ---
 name: optimized
-measurement_mode: internal
+mode: internal
 ---
 name: optimized
-measurement_mode: external
+mode: external

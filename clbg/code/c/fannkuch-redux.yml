@@ -21,7 +21,7 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/fa
     #include <stdint.h>
     #include <stdlib.h>
     #include <stdio.h>
-    #include <measurements.h>
+    #include <signals.h>
 
     // intptr_t should be the native integer type on most sane systems.
     typedef intptr_t intnative_t;
@@ -177,9 +177,9 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/fa
     {
         while (1)
         {
-            if (!start_measurement()) break;
+            if (!start_gl()) break;
             run_benchmark(argc, argv);
-            end_measurement();
+            end_gl();
         }
        return 0;
     }
@@ -194,7 +194,7 @@ expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
 niceness: -20
 ---
 name: optimized
-measurement_mode: internal
+mode: internal
 ---
 name: optimized
-measurement_mode: external
+mode: external

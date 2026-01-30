@@ -17,7 +17,7 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/sp
     #include <cstdio>
     #include <sched.h>
     #include <omp.h>
-    #include <measurements.h>
+    #include <signals.h>
 
     // define SIMD data type. 2 doubles are packed in 1 XMM register
     typedef double v2dt __attribute__((vector_size(16)));
@@ -278,9 +278,9 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/sp
     {
         while (1)
         {
-            if (!start_measurement()) break;
+            if (!start_gl()) break;
             run_benchmark(argc, argv);
-            end_measurement();
+            end_gl();
         }
         return 0;
     }
@@ -295,7 +295,7 @@ expected_stdout: !!binary MS4yNzQyMjQxNTMK
 niceness: -20
 ---
 name: optimized
-measurement_mode: internal
+mode: internal
 ---
 name: optimized
-measurement_mode: external
+mode: external

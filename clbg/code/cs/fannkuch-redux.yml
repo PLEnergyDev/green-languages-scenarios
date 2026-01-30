@@ -15,11 +15,11 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/fa
 
     public unsafe static class Program
     {
-        [DllImport("libmeasurements", EntryPoint = "start_measurement")]
-        private static extern bool start_measurement();
+        [DllImport("libsignals", EntryPoint = "start_gl")]
+        private static extern bool start_gl();
 
-        [DllImport("libmeasurements", EntryPoint = "end_measurement")]
-        private static extern void end_measurement();
+        [DllImport("libsignals", EntryPoint = "end_gl")]
+        private static extern void end_gl();
 
         static int taskCount;
         static int[] fact, chkSums, maxFlips;
@@ -164,10 +164,10 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/fa
 
         public static void Main(string[] args)
         {
-            while (start_measurement())
+            while (start_gl())
             {
                 run_benchmark(args);
-                end_measurement();
+                end_gl();
             }
         }
     }
@@ -187,7 +187,7 @@ expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
 niceness: -20
 ---
 name: server
-measurement_mode: internal
+mode: internal
 ---
 name: server
-measurement_mode: external
+mode: external

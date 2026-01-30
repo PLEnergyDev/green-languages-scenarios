@@ -16,11 +16,11 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/sp
         private static final int NCPU = Runtime.getRuntime().availableProcessors();
 
         public static void main(String[] args) throws Exception {
-            Measurements measurements = new Measurements();
+            Signals signals = new Signals();
             while (true) {
-                if (measurements.startMeasurement() == 0) break;
+                if (signals.startGl() == 0) break;
                 run_benchmark(args);
-                measurements.endMeasurement();
+                signals.endGl();
             }
         }
 
@@ -101,7 +101,7 @@ expected_stdout: !!binary MS4yNzQyMjQxNTMK
 niceness: -20
 ---
 name: server
-measurement_mode: internal
+mode: internal
 ---
 name: server
-measurement_mode: external
+mode: external

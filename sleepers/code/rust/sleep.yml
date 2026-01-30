@@ -9,20 +9,20 @@ code: |
 
     #[link(name = "measurements")]
     unsafe extern "C" {
-        fn start_measurement() -> bool;
-        fn end_measurement();
+        fn start_gl() -> bool;
+        fn end_gl();
     }
 
     fn main() {
         loop {
             unsafe {
-                if !start_measurement() {
+                if !start_gl() {
                     break;
                 }
             }
             thread::sleep(Duration::from_secs(1));
             unsafe {
-                end_measurement();
+                end_gl();
             }
         }
     }
@@ -30,7 +30,7 @@ compile_options: [--release]
 affinity: [4, 5]
 ---
 name: release
-measurement_mode: internal
+mode: internal
 ---
 name: release
-measurement_mode: external
+mode: external

@@ -5,13 +5,13 @@ description: |
     Used for testing framework measurement accuracy.
 code: |
     #include <unistd.h>
-    #include <measurements.h>
+    #include <signals.h>
 
     int main(int argc, char **argv) {
         while (1) {
-            if (!start_measurement()) break;
+            if (!start_gl()) break;
             sleep(1);
-            end_measurement();
+            end_gl();
         }
         return 0;
     }
@@ -19,7 +19,7 @@ compile_options: [-pipe, -O3, -march=native, -fomit-frame-pointer]
 niceness: -20
 ---
 name: optimized
-measurement_mode: internal
+mode: internal
 ---
 name: optimized
-measurement_mode: external
+mode: external

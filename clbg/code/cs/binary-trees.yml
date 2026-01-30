@@ -12,20 +12,20 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/bi
     using System.Runtime.InteropServices;
 
     class Program {
-        [DllImport("libmeasurements", EntryPoint = "start_measurement")]
-        private static extern bool start_measurement();
+        [DllImport("libsignals", EntryPoint = "start_gl")]
+        private static extern bool start_gl();
 
-        [DllImport("libmeasurements", EntryPoint = "end_measurement")]
-        private static extern void end_measurement();
+        [DllImport("libsignals", EntryPoint = "end_gl")]
+        private static extern void end_gl();
 
         const int MinDepth = 4;
         const int NoTasks = 4;
 
         public static void Main(string[] args) {
             while (true) {
-                if (!start_measurement()) break;
+                if (!start_gl()) break;
                 run_benchmark(args);
-                end_measurement();
+                end_gl();
             }
         }
 
@@ -113,7 +113,7 @@ expected_stdout: !!binary |
 niceness: -20
 ---
 name: release
-measurement_mode: internal
+mode: internal
 ---
 name: release
-measurement_mode: external
+mode: external

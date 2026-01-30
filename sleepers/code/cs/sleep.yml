@@ -9,17 +9,17 @@ code: |
     using System.Runtime.InteropServices;
 
     class Program{
-        [DllImport("libmeasurements", EntryPoint = "start_measurement")]
-        static extern bool start_measurement();
+        [DllImport("libsignals", EntryPoint = "start_gl")]
+        static extern bool start_gl();
 
-        [DllImport("libmeasurements", EntryPoint = "end_measurement")]
-        static extern void end_measurement();
+        [DllImport("libsignals", EntryPoint = "end_gl")]
+        static extern void end_gl();
 
         static void Main(string[] args) {
             while (true) {
-                if (!start_measurement()) break;
+                if (!start_gl()) break;
                 Thread.Sleep(1000);
-                end_measurement();
+                end_gl();
             }
         }
     }
@@ -37,7 +37,7 @@ compile_options:
 niceness: -20
 ---
 name: release
-measurement_mode: internal
+mode: internal
 ---
 name: release
-measurement_mode: external
+mode: external

@@ -14,7 +14,7 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/fa
     #include <iostream>
     #include <vector>
     #include <algorithm>
-    #include <measurements.h>
+    #include <signals.h>
 
     using namespace std;
 
@@ -203,9 +203,9 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/fa
     {
         while (1)
         {
-            if (!start_measurement()) break;
+            if (!start_gl()) break;
             run_benchmark(argc, argv);
-            end_measurement();
+            end_gl();
         }
         return 0;
     }
@@ -221,7 +221,7 @@ expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
 niceness: -20
 ---
 name: optimized
-measurement_mode: internal
+mode: internal
 ---
 name: optimized
-measurement_mode: external
+mode: external

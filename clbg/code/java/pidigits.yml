@@ -304,7 +304,7 @@ niceness: -20
 affinity: [5]
 ---
 name: server
-measurement_mode: internal
+mode: internal
 ---
 name: server
-measurement_mode: external
+mode: external

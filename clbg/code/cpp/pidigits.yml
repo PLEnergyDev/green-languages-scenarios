@@ -10,7 +10,7 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/pi
     #include <gmpxx.h>
     #include <cstdlib>
     #include <iostream>
-    #include <measurements.h>
+    #include <signals.h>
 
     class LFT {
     public:
@@ -73,9 +73,9 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/pi
 
     int main(int argc, char** argv) {
         while (1) {
-            if (!start_measurement()) break;
+            if (!start_gl()) break;
             run_benchmark(argc, argv);
-            end_measurement();
+            end_gl();
         }
         return 0;
     }
@@ -388,7 +388,7 @@ niceness: -20
 affinity: [5]
 ---
 name: optimized
-measurement_mode: internal
+mode: internal
 ---
 name: optimized
-measurement_mode: external
+mode: external

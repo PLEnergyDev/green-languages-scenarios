@@ -20,7 +20,7 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/bi
     #include <memory_resource>
     #include <numeric>
     #include <boost/iterator/counting_iterator.hpp>
-    #include <measurements.h>
+    #include <signals.h>
 
     using MemoryPool = std::pmr::monotonic_buffer_resource;
 
@@ -105,9 +105,9 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/bi
     {
         while (1)
         {
-            if (!start_measurement()) break;
+            if (!start_gl()) break;
             run_benchmark(argc, argv);
-            end_measurement();
+            end_gl();
         }
 
         return 0;
@@ -131,7 +131,7 @@ expected_stdout: !!binary |
 niceness: -20
 ---
 name: optimized
-measurement_mode: internal
+mode: internal
 ---
 name: optimized
-measurement_mode: external
+mode: external

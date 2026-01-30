@@ -6,15 +6,15 @@ description: |
 code: |
     public class Program {
         public static void main(String[] args) {
-            Measurements measurements = new Measurements();
+            Signals signals = new Signals();
             while (true) {
-                if (measurements.startMeasurement() == 0) break;
+                if (signals.startGl() == 0) break;
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-                measurements.endMeasurement();
+                signals.endGl();
             }
         }
     }
@@ -22,7 +22,7 @@ compile_options: [-server]
 niceness: -20
 ---
 name: server
-measurement_mode: internal
+mode: internal
 ---
 name: server
-measurement_mode: external
+mode: external

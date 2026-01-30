@@ -11,16 +11,16 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nb
     using System.Runtime.InteropServices;
 
     class Program {
-        [DllImport("libmeasurements", EntryPoint = "start_measurement")]
-        private static extern bool start_measurement();
+        [DllImport("libsignals", EntryPoint = "start_gl")]
+        private static extern bool start_gl();
 
-        [DllImport("libmeasurements", EntryPoint = "end_measurement")]
-        private static extern void end_measurement();
+        [DllImport("libsignals", EntryPoint = "end_gl")]
+        private static extern void end_gl();
 
         public static void Main(String[] args) {
-            while (start_measurement()) {
+            while (start_gl()) {
                 run_benchmark(args);
-                end_measurement();
+                end_gl();
             }
         }
 
@@ -146,10 +146,9 @@ expected_stdout: !!binary |
     LTAuMTY5MDc1MTY0Ci0wLjE2OTA1OTkwNwo=
 niceness: -20
 affinity: [5]
-
 ---
 name: release
-measurement_mode: internal
+mode: internal
 ---
 name: release
-measurement_mode: external
+mode: external

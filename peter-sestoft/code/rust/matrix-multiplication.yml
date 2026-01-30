@@ -1,10 +1,10 @@
 name: matrix-multiplication
 language: rust
 code: |
-    #[link(name = "measurements")]
+    #[link(name = "signals")]
     unsafe extern "C" {
-        fn start_measurement() -> bool;
-        fn end_measurement();
+        fn start_gl() -> bool;
+        fn end_gl();
     }
 
     fn run_benchmark(args: &[String]) {
@@ -49,13 +49,13 @@ code: |
         let args: Vec<String> = std::env::args().skip(1).collect();
         loop {
             unsafe {
-                if !start_measurement() {
+                if !start_gl() {
                     break;
                 }
             }
             run_benchmark(&args);
             unsafe {
-                end_measurement();
+                end_gl();
             }
         }
     }
@@ -66,7 +66,7 @@ niceness: -20
 affinity: [5]
 ---
 name: release
-measurement_mode: internal
+mode: internal
 ---
 name: release
-measurement_mode: external
+mode: external
