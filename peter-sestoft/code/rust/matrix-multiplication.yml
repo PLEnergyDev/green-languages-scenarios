@@ -62,7 +62,7 @@ code: |
 arguments: [200, 1000]
 compile_options: [--release]
 expected_stdout: !!binary MTg0ODcxMDAK
-niceness: -20
+nice: -20
 affinity: [5]
 ---
 name: release

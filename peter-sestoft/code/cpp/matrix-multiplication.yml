@@ -47,7 +47,7 @@ code: |
 arguments: [200, 1000]
 compile_options: [-pipe, -O3, -march=native, -fomit-frame-pointer]
 expected_stdout: !!binary MTg0ODcxMDAK
-niceness: -20
+nice: -20
 affinity: [5]
 ---
 name: optimized

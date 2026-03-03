@@ -42,7 +42,7 @@ compile_options:
     - -p:IlcInstructionSet=native
 arguments: [20]
 expected_stdout: !!binary MjcyNDAwNjAwCg==
-niceness: -20
+nice: -20
 affinity: [5]
 ---
 name: release

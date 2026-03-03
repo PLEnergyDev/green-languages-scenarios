@@ -25,7 +25,7 @@ code: |
 arguments: [20]
 compile_options: [-server]
 expected_stdout: !!binary MjcyNDAwNjAwCg==
-niceness: -20
+nice: -20
 affinity: [5]
 ---
 name: server

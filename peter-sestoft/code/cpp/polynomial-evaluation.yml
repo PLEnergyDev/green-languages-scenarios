@@ -39,7 +39,7 @@ code: |
 arguments: [1000, 0.5, 1000000]
 compile_options: [-pipe, -O3, -march=native, -fomit-frame-pointer]
 expected_stdout: !!binary MS4zODYyOTQK
-niceness: -20
+nice: -20
 affinity: [5]
 ---
 name: optimized

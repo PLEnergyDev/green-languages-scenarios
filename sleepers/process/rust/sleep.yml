@@ -11,6 +11,6 @@ code: |
         thread::sleep(Duration::from_secs(1));
     }
 compile_options: [--release]
-niceness: -20
+nice: -20
 ---
 name: release

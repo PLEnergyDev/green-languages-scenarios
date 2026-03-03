@@ -1,12 +1,15 @@
 name: matrix-multiplication
 language: cs
+description: |
+    Create two square matrices of size N×N.
+    Each cell within these two matrices will be initialized with the sum of their row and column indices.
+    Multiply the two matrices and output the contents of the last cell.
 code: |
     using System;
 
     public class Program {
         public static void Main(string[] args) {
             int n = int.Parse(args[0]);
-            int repetitions = (args.Length > 1) ? int.Parse(args[1]) : 1000;
 
             double[] A = new double[n * n];
             double[] B = new double[n * n];
@@ -18,8 +21,8 @@ code: |
                 }
             }
 
-            double totalResult = 0.0;
-            for (int rep = 0; rep < repetitions; rep++) {
+            double result = 0.0;
+            for (int rep = 0; rep < 1000; rep++) {
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < n; j++) {
                         double sum = 0.0;
@@ -29,10 +32,10 @@ code: |
                         C[i*n + j] = sum;
                     }
                 }
-                totalResult += C[n*n - 1];
+                result += C[n*n - 1];
             }
 
-            Console.WriteLine($"{totalResult / repetitions:F0}");
+            Console.WriteLine($"{result / 1000:F0}");
         }
     }
 framework: net9.0
@@ -46,18 +49,18 @@ compile_options:
     - -p:UseSharedCompilation=false
     - -p:OptimizationPreference=Speed
     - -p:IlcInstructionSet=native
-arguments: [200, 1000]
+arguments: [200]
 expected_stdout: !!binary MTg0ODcxMDAK
 ---
 name: release
 ---
 name: release
-niceness: -20
+nice: -20
 ---
 name: release
 affinity: [5]
 ---
 name: release
-niceness: -20
+nice: -20
 affinity: [5]
 

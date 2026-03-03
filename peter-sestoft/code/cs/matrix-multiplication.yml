@@ -63,7 +63,7 @@ compile_options:
     - -p:IlcInstructionSet=native
 arguments: [200, 1000]
 expected_stdout: !!binary MTg0ODcxMDAK
-niceness: -20
+nice: -20
 affinity: [5]
 ---
 name: release

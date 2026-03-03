@@ -1,5 +1,9 @@
 name: matrix-multiplication
 language: cpp
+description: |
+    Create two square matrices of size N×N.
+    Each cell within these two matrices will be initialized with the sum of their row and column indices.
+    Multiply the two matrices and output the contents of the last cell.
 code: |
     #include <iostream>
     #include <vector>
@@ -42,12 +46,12 @@ expected_stdout: !!binary MTg0ODcxMDAK
 name: optimized
 ---
 name: optimized
-niceness: -20
+nice: -20
 ---
 name: optimized
 affinity: [5]
 ---
 name: optimized
-niceness: -20
+nice: -20
 affinity: [5]
 

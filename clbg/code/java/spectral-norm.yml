@@ -98,7 +98,7 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/sp
 arguments: [5500]
 compile_options: [-server]
 expected_stdout: !!binary MS4yNzQyMjQxNTMK
-niceness: -20
+nice: -20
 ---
 name: server
 mode: internal

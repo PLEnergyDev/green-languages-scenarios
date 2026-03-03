@@ -1,5 +1,9 @@
 name: matrix-multiplication
 language: rust
+description: |
+    Create two square matrices of size N×N.
+    Each cell within these two matrices will be initialized with the sum of their row and column indices.
+    Multiply the two matrices and output the contents of the last cell.
 code: |
     fn main() {
         let args: Vec<String> = std::env::args().skip(1).collect();
@@ -7,9 +11,6 @@ code: |
             .expect("Missing argument")
             .parse()
             .expect("Invalid integer");
-        let repetitions: usize = args.get(1)
-            .map(|s| s.parse().expect("Invalid integer"))
-            .unwrap_or(1000);
 
         let mut a = vec![0.0; n * n];
         let mut b = vec![0.0; n * n];
@@ -23,11 +24,11 @@ code: |
             }
         }
 
-        let mut result = 0.0;
-        for _ in 0..repetitions {
+        let mut result: f64 = 0.0f64;
+        for _ in 0..1000 {
             for i in 0..n {
                 for j in 0..n {
-                    let mut sum = 0.0;
+                    let mut sum = 0.0f64;
                     for k in 0..n {
                         sum += a[i * n + k] * b[k * n + j];
                     }
@@ -37,21 +38,21 @@ code: |
             result += c[n * n - 1];
         }
 
-        println!("{:.0}", result / repetitions as f64);
+        println!("{:.0}", result / 1000.0);
     }
-arguments: [200, 1000]
+arguments: [200]
 compile_options: [--release]
 expected_stdout: !!binary MTg0ODcxMDAK
 ---
 name: release
 ---
 name: release
-niceness: -20
+nice: -20
 ---
 name: release
 affinity: [5]
 ---
 name: release
-niceness: -20
+nice: -20
 affinity: [5]
 

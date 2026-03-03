@@ -27,7 +27,7 @@ code: |
 arguments: [20]
 compile_options: [-pipe, -O3, -march=native, -fomit-frame-pointer]
 expected_stdout: !!binary MjcyNDAwNjAwCg==
-niceness: -20
+nice: -20
 affinity: [5]
 ---
 name: optimized

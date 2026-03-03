@@ -300,7 +300,7 @@ expected_stdout: !!binary |
     Mjc2NDU3OTMJOjk5MzAKMTA2NTc5MjI5NQk6OTk0MAo1MjQ5ODg3Mjc1CTo5OTUwCjg0NjEwMTI2
     NDgJOjk5NjAKMzY5OTk4OTIyNQk6OTk3MAo2OTU5Njg4MTU5CTo5OTgwCjIwNTYwMDEwMTYJOjk5
     OTAKNTUyNTYzNzU2Nwk6MTAwMDAK
-niceness: -20
+nice: -20
 affinity: [5]
 ---
 name: server

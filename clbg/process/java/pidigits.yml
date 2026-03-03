@@ -1,5 +1,25 @@
 name: pidigits
 language: java
+description: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/pidigits.html#pidigits
+    ## Background
+    MathWorld: [Pi Digits.](http://mathworld.wolfram.com/PiDigits.html)
+    [HN discussion](https://news.ycombinator.com/item?id=25626720)
+
+    ## Variance
+    Some language implementations have arbitrary precision arithmetic built-in; some provide an arbitrary precision arithmetic library; some use a third-party library ([GMP](http://gmplib.org/)); some provide built-in arbitrary precision arithmetic by wrapping a third-party library.
+
+    ## The work
+    The work is to use aribitrary precision arithmetic and the same step-by-step single-threaded algorithm to generate digits of Pi. Do both extract(3) and extract(4). Don't optimize away the work.
+
+    ## How to implement
+    We ask that contributed programs not only give the correct result, but also **use the sequential algorithm** to calculate that result.
+    Each program should:
+    - calculate the first N digits of Pi
+    - print the digits 10-to-a-line, with the running total of digits calculated
+
+    **diff** program output N = 30 with this [output file](https://benchmarksgame-team.pages.debian.net/benchmarksgame/download/pidigits-output.txt) to check your program output has the correct format, before you [contribute your program.](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/blob/master/README.md)
+    Use a larger command line argument (10000) to check program performance.
+    Adapt the **step-by-step** algorithm given on pages 4,6 & 7 of [pdf 156KB] [Unbounded Spigot Algorithms for the Digits of Pi.](http://web.comlab.ox.ac.uk/oucl/work/jeremy.gibbons/publications/spigot.pdf) (**Not** the deliberately obscure version given on page 2. **Not** the Rabinowitz-Wagon algorithm.)
 code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/pidigits-graalvmaot-5.html
     /* The Computer Language Benchmarks Game
      * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
@@ -443,12 +463,12 @@ expected_stdout: !!binary |
 name: server
 ---
 name: server
-niceness: -20
+nice: -20
 ---
 name: server
 affinity: [5]
 ---
 name: server
-niceness: -20
+nice: -20
 affinity: [5]
 

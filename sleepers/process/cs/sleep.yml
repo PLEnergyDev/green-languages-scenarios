@@ -24,6 +24,6 @@ compile_options:
     - -p:UseSharedCompilation=false
     - -p:OptimizationPreference=Speed
     - -p:IlcInstructionSet=native
-niceness: -20
+nice: -20
 ---
 name: release

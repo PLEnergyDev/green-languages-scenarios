@@ -11,6 +11,6 @@ code: |
         return 0;
     }
 compile_options: [-pipe, -O3, -march=native, -fomit-frame-pointer]
-niceness: -20
+nice: -20
 ---
 name: optimized

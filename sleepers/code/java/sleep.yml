@@ -19,7 +19,7 @@ code: |
         }
     }
 compile_options: [-server]
-niceness: -20
+nice: -20
 ---
 name: server
 mode: internal
