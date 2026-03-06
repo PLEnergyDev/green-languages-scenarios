@@ -1,7 +1,7 @@
 name: sleep
 language: java
 description: |
-    Simple benchmark that sleeps for exactly one second per iteration.
+    Simple benchmark that sleeps for one second.
     Used for testing framework measurement accuracy.
 code: |
     public class Program {
@@ -14,6 +14,16 @@ code: |
         }
     }
 compile_options: [-server]
+---
+name: server
+---
+name: server
 nice: -20
 ---
 name: server
+affinity: [5]
+---
+name: server
+nice: -20
+affinity: [5]
+

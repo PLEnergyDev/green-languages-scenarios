@@ -1,7 +1,7 @@
 name: sleep
 language: cpp
 description: |
-    Simple benchmark that sleeps for exactly one second per iteration.
+    Simple benchmark that sleeps for one second.
     Used for testing framework measurement accuracy.
 code: |
     #include <unistd.h>
@@ -11,6 +11,16 @@ code: |
         return 0;
     }
 compile_options: [-pipe, -O3, -march=native, -fomit-frame-pointer]
+---
+name: optimized
+---
+name: optimized
 nice: -20
 ---
 name: optimized
+affinity: [5]
+---
+name: optimized
+nice: -20
+affinity: [5]
+

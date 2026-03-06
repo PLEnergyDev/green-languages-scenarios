@@ -1,7 +1,7 @@
 name: sleep
 language: cs
 description: |
-    Simple benchmark that sleeps for exactly one second per iteration.
+    Simple benchmark that sleeps for one second.
     Used for testing framework measurement accuracy.
 code: |
     using System;
@@ -24,6 +24,16 @@ compile_options:
     - -p:UseSharedCompilation=false
     - -p:OptimizationPreference=Speed
     - -p:IlcInstructionSet=native
+---
+name: release
+---
+name: release
 nice: -20
 ---
 name: release
+affinity: [5]
+---
+name: release
+nice: -20
+affinity: [5]
+

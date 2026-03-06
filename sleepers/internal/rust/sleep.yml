@@ -1,0 +1,47 @@
+name: sleep
+language: rust
+description: |
+    Simple benchmark that sleeps for one second.
+    Used for testing framework measurement accuracy.
+libgreen: true
+code: |
+    use std::thread;
+    use std::time::Duration;
+    use std::ffi::CString;
+
+    #[link(name = "green")]
+    unsafe extern "C" {
+        fn measure_start(metrics: *const std::ffi::c_char) -> *mut std::ffi::c_void;
+        fn measure_stop(context: *mut std::ffi::c_void);
+    }
+
+    fn main() {
+        let args: Vec<String> = std::env::args().skip(1).collect();
+        if args.len() < 2 {
+            eprintln!("Usage: <program> <internal_runs> <metrics>");
+            std::process::exit(1);
+        }
+
+        let internal_runs: usize = args[0].parse().expect("Invalid integer");
+        let metrics = CString::new(args[1].as_str()).expect("Invalid metrics string");
+
+        for _ in 0..internal_runs {
+            let context = unsafe { measure_start(metrics.as_ptr()) };
+            thread::sleep(Duration::from_secs(1));
+            unsafe { measure_stop(context) };
+        }
+    }
+compile_options: [--release]
+---
+name: release
+---
+name: release
+nice: -20
+---
+name: release
+affinity: [5]
+---
+name: release
+nice: -20
+affinity: [5]
+

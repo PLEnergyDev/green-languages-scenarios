@@ -1,0 +1,59 @@
+name: division-loop
+language: rust
+description: |
+    Consider for a given M the problem of finding the least integer n such that 1/1 + 1/2 + 1/3 + ... + 1/n >= M.
+    For M = 20 the answer is n = 272400600 and the loop performs that many runs.
+    Each run involves a floating-point comparison, a floating-point division and a floating-point addition, as well as an integer increment.
+libgreen: true
+code: |
+    use std::ffi::CString;
+
+    #[link(name = "green")]
+    unsafe extern "C" {
+        fn measure_start(metrics: *const std::ffi::c_char) -> *mut std::ffi::c_void;
+        fn measure_stop(context: *mut std::ffi::c_void);
+    }
+
+    fn run_benchmark(m: i32) {
+        let mut sum: f64 = 0.0f64;
+        let mut n: i32 = 0;
+        while sum < m as f64 {
+            n += 1;
+            sum += 1.0 / n as f64;
+        }
+        println!("{}", n);
+    }
+
+    fn main() {
+        let args: Vec<String> = std::env::args().skip(1).collect();
+        if args.len() < 3 {
+            eprintln!("Usage: <program> <m> <internal_runs> <metrics>");
+            std::process::exit(1);
+        }
+
+        let m: i32 = args[0].parse().expect("Invalid integer");
+        let internal_runs: usize = args[1].parse().expect("Invalid integer");
+        let metrics = CString::new(args[2].as_str()).expect("Invalid metrics string");
+
+        for _ in 0..internal_runs {
+            let context = unsafe { measure_start(metrics.as_ptr()) };
+            run_benchmark(m);
+            unsafe { measure_stop(context) };
+        }
+    }
+arguments: [20]
+compile_options: [--release]
+expected_stdout: !!binary MjcyNDAwNjAwCg==
+---
+name: release
+---
+name: release
+nice: -20
+---
+name: release
+affinity: [5]
+---
+name: release
+nice: -20
+affinity: [5]
+

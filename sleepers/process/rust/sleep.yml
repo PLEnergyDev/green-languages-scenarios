@@ -1,7 +1,7 @@
 name: sleep
 language: rust
 description: |
-    Simple benchmark that sleeps for exactly one second per iteration.
+    Simple benchmark that sleeps for one second.
     Used for testing framework measurement accuracy.
 code: |
     use std::thread;
@@ -11,6 +11,16 @@ code: |
         thread::sleep(Duration::from_secs(1));
     }
 compile_options: [--release]
+---
+name: release
+---
+name: release
 nice: -20
 ---
 name: release
+affinity: [5]
+---
+name: release
+nice: -20
+affinity: [5]
+

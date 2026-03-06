@@ -1,0 +1,60 @@
+name: division-loop
+language: java
+description: |
+    Consider for a given M the problem of finding the least integer n such that 1/1 + 1/2 + 1/3 + ... + 1/n >= M.
+    For M = 20 the answer is n = 272400600 and the loop performs that many runs.
+    Each run involves a floating-point comparison, a floating-point division and a floating-point addition, as well as an integer increment.
+libgreen: true
+code: |
+    class Green {
+        static { System.loadLibrary("green"); }
+        public native long measureStart(String events);
+        public native void measureStop(long context);
+    }
+
+    public class Program {
+        static void run_benchmark(int m) {
+            double sum = 0.0;
+            int n = 0;
+            while (sum < m) {
+                n++;
+                sum += 1.0 / n;
+            }
+            System.out.printf("%d\n", n);
+        }
+
+        public static void main(String[] args) {
+            if (args.length < 3) {
+                System.err.println("Usage: <program> <m> <internal_runs> <metrics>");
+                System.exit(1);
+            }
+
+            int m = Integer.parseInt(args[0]);
+            int internal_runs = Integer.parseInt(args[1]);
+            String metrics = args[2];
+
+            Green green = new Green();
+
+            for (int i = 0; i < internal_runs; i++) {
+                long context = green.measureStart(metrics);
+                run_benchmark(m);
+                green.measureStop(context);
+            }
+        }
+    }
+arguments: [20]
+compile_options: [-server]
+expected_stdout: !!binary MjcyNDAwNjAwCg==
+---
+name: server
+---
+name: server
+nice: -20
+---
+name: server
+affinity: [5]
+---
+name: server
+nice: -20
+affinity: [5]
+

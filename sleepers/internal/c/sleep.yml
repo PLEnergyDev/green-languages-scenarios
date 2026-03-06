@@ -1,0 +1,43 @@
+name: sleep
+language: c
+description: |
+    Simple benchmark that sleeps for one second.
+    Used for testing framework measurement accuracy.
+libgreen: true
+code: |
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+    #include <green.h>
+
+    int main(int argc, char **argv) {
+        if (argc < 3) {
+            fprintf(stderr, "Usage: %s <internal_runs> <metrics>\n", argv[0]);
+            return 1;
+        }
+
+        int internal_runs = atoi(argv[1]);
+        const char *metrics = argv[2];
+
+        for (int i = 0; i < internal_runs; i++) {
+            void *context = measure_start(metrics);
+            sleep(1);
+            measure_stop(context);
+        }
+
+        return 0;
+    }
+compile_options: [-pipe, -O3, -march=native, -fomit-frame-pointer]
+---
+name: optimized
+---
+name: optimized
+nice: -20
+---
+name: optimized
+affinity: [5]
+---
+name: optimized
+nice: -20
+affinity: [5]
+
