@@ -1,0 +1,14 @@
+name: spectral-norm
+language: rust
+code: | # 
+arguments: [5500]
+expected_stdout: !!binary MS4yNzQyMjQxNTMK
+compile_options: [--release]
+settings:
+    edition: "2024"
+---
+name: release
+---
+name: release
+nice: -20
+

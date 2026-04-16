@@ -1,0 +1,23 @@
+name: n-body
+language: rust
+code: | # 
+arguments: [50000000]
+compile_options: [--release]
+settings:
+    edition: "2024"
+expected_stdout: !!binary |
+    LTAuMTY5MDc1MTY0Ci0wLjE2OTA1OTkwNwo=
+---
+name: release
+---
+name: release
+nice: -20
+---
+name: release
+affinity: [5]
+---
+name: release
+nice: -20
+affinity: [5]
+
+
