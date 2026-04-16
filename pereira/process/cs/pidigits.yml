@@ -103,7 +103,7 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
        }
 
        public static void Main(String[] args) {
-           Program m = new Program Int32.Parse (args[0]));
+           Program m = new Program(Int32.Parse (args[0]));
            m.Run();
        }
     }

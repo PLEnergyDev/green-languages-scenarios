@@ -105,7 +105,7 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
           
        public static void main(String[] args) {
           Program m = new Program(Integer.parseInt(args[0]));
-          m.Program();
+          m.pidigits();
        }
     }
 
