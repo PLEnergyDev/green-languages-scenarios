@@ -178,11 +178,11 @@ name: optimized
 ---
 name: optimized
 nice: -20
----
-name: optimized
-affinity: [5]
----
-name: optimized
-nice: -20
-affinity: [5]
-
+# ---
+# name: optimized
+# affinity: [5]
+# ---
+# name: optimized
+# nice: -20
+# affinity: [5]
+#

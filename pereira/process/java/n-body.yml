@@ -188,11 +188,11 @@ name: server
 ---
 name: server
 nice: -20
----
-name: server
-affinity: [5]
----
-name: server
-nice: -20
-affinity: [5]
-
+# ---
+# name: server
+# affinity: [5]
+# ---
+# name: server
+# nice: -20
+# affinity: [5]
+#
