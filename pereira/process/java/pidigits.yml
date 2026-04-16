@@ -1,172 +1,146 @@
 name: pidigits
 language: java
-code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6bb07fb2512037c0ed8e2279ce440/Java/pidigits/pidigits.java
-    /**
-     * The Computer Language Benchmarks Game
-     * http://benchmarksgame.alioth.debian.org/
-     * contributed by Mike Pall
-     * java port by Stefan Krause
-    */
+code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/pidigits-graalvmaot-5.html
+    /* The Computer Language Benchmarks Game
+     * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+     *
+     * Contributed by Michael Ganss
+     * derived from PHP version that was
+     * contributed by Oleksii Prudkyi
+     * port from pidigits.lua-5.lua (Mike Pall, Wim Couwenberg)
+     * modified by Craig Russell
+     *
+     * Original C version by Mr Ledrug
+     *
+     * ported to Java by Piotr Tarsa
+     */
 
+    import java.lang.foreign.*;
+    import java.lang.invoke.MethodHandle;
 
     public class Program {
-       
-       final GmpInteger q = new GmpInteger(), r = new GmpInteger(),
-       s = new GmpInteger(), t = new GmpInteger(); 
-       final GmpInteger u = new GmpInteger(), v = new GmpInteger(),
-       w = new GmpInteger(); 
+        private static final Arena GLOBAL_ARENA = Arena.global();
 
-       int i, k, c; 
-       int digit;
-       int d;
-       StringBuffer strBuf = new StringBuffer(20);
-       final int n;
-       
-       private Program(int n)
-       {
-          this.n=n;
-       }
-       
-       private void compose_r(int bq, int br, int bs, int bt)
-       {
-         u.mul(r, bs);
-         r.mul(r, bq);
-         v.mul(t, br);
-         r.add(r, v);
-         t.mul(t, bt);
-         t.add(t, u);
-         s.mul(s, bt);
-         u.mul(q, bs);
-         s.add(s, u);
-         q.mul(q, bq);
-       }
+        private static final Linker LINKER = Linker.nativeLinker();
+        private static final SymbolLookup GMP = SymbolLookup.libraryLookup("libgmp.so", GLOBAL_ARENA);
 
-       /* Compose matrix with numbers on the left. */
-       private void compose_l(int bq, int br, int bs, int bt)
-       {
-         r.mul(r, bt);
-         u.mul(q, br);
-         r.add(r, u);
-         u.mul(t, bs);
-         t.mul(t, bt);
-         v.mul(s, br);
-         t.add(t, v);
-         s.mul(s, bq);
-         s.add(s, u);
-         q.mul(q, bq);
-       }
+        // Manually written as jextract didn't extract it.
+        // Names and types taken from gmp.h
+        private static final MemoryLayout mpz_t = MemoryLayout.structLayout(
+                ValueLayout.JAVA_INT.withName("_mp_alloc"),
+                ValueLayout.JAVA_INT.withName("_mp_size"),
+                ValueLayout.ADDRESS.withName("_mp_d")
+        ).withName("__mpz_struct");
 
-       /* Extract one digit. */
-       private int extract(int j)
-       {
-         u.mul(q, j);
-         u.add(u, r);
-         v.mul(s, j);
-         v.add(v, t);
-         w.div(u, v);
-         return w.intValue();
-       }
+        private static final MethodHandle __gmpz_init;
+        private static final MethodHandle __gmpz_init_set_si;
+        private static final MethodHandle __gmpz_tdiv_q;
+        private static final MethodHandle __gmpz_cmp;
+        private static final MethodHandle __gmpz_get_si;
+        private static final MethodHandle __gmpz_mul_si;
+        private static final MethodHandle __gmpz_mul;
+        private static final MethodHandle __gmpz_add;
 
-       /* Print one digit. Returns 1 for the last digit. */
-       private boolean prdigit(int y)
-       {
-          strBuf.append(y);
-          if (++i % 10 == 0 || i == n) {
-             if (i%10!=0) for (int j=10-(i%10);j>0;j--) { strBuf.append(" "); }
-             strBuf.append("\t:");
-             strBuf.append(i);
-             System.out.println(strBuf);
-             strBuf = new StringBuffer(20);
-          }
-          return i == n;
-       }
+        static {
+            __gmpz_init = LINKER.downcallHandle(
+                GMP.find("__gmpz_init").orElseThrow(),
+                FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
 
-       /* Generate successive digits of PI. */
-       void pidigits()
-       {
-         int k = 1;
-         d = 0;
-         i = 0;
-         q.set(1);
-         r.set(0);
-         s.set(0);
-         t.set(1);
-         for (;;) {
-           int y = extract(3);
-           if (y == extract(4)) {
-             if (prdigit(y)) return;
-             compose_r(10, -10*y, 0, 1);
-           } else {
-             compose_l(k, 4*k+2, 0, 2*k+1);
-             k++;
-           }
-         }
-       }
-          
-       public static void main(String[] args) {
-          Program m = new Program(Integer.parseInt(args[0]));
-          m.pidigits();
-       }
-    }
+            __gmpz_init_set_si = LINKER.downcallHandle(
+                GMP.find("__gmpz_init_set_si").orElseThrow(),
+                FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG));
 
+            __gmpz_tdiv_q = LINKER.downcallHandle(
+                GMP.find("__gmpz_tdiv_q").orElseThrow(),
+                FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
 
+            __gmpz_cmp = LINKER.downcallHandle(
+                GMP.find("__gmpz_cmp").orElseThrow(),
+                FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
 
-    class GmpInteger {
-       
-       // Public methods
-       
-       public GmpInteger() {
-          mpz_init();
-       }
+            __gmpz_get_si = LINKER.downcallHandle(
+                GMP.find("__gmpz_get_si").orElseThrow(),
+                FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
 
-       public GmpInteger(int value) {
-          this();
-          mpz_set_si(pointer, value);
-       }
-       
-       public void set(int value) { mpz_set_si(pointer, value); }
+            __gmpz_mul_si = LINKER.downcallHandle(
+                GMP.find("__gmpz_mul_si").orElseThrow(),
+                FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG));
 
-       public void mul(GmpInteger src, int val) { mpz_mul_si(pointer, src.pointer, val); }
-       
-       public void add(GmpInteger op1, GmpInteger op2) { mpz_add(pointer, op1.pointer, op2.pointer); }
-       
-       public void div(GmpInteger op1, GmpInteger op2) { mpz_tdiv_q(pointer, op1.pointer, op2.pointer); }
-       
-       public int intValue() { return mpz_get_si(pointer); }
-       
-       public double doubleValue() { return mpz_get_d(pointer); } 
+            __gmpz_mul = LINKER.downcallHandle(
+                GMP.find("__gmpz_mul").orElseThrow(),
+                FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
 
-       // Non public stuff
-       
-       static {
-          System.loadLibrary("jgmplib");
-       }
-       private long pointer;
-       
-       protected void finalize()  {
-          mpz_clear(pointer);
-       }
-       
-       private native void mpz_init();
+            __gmpz_add = LINKER.downcallHandle(
+                GMP.find("__gmpz_add").orElseThrow(),
+                FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+        }
 
-       private native void mpz_clear(long src);
+        @SuppressWarnings("SameParameterValue")
+        private static MemorySegment alloc(MemoryLayout typeDescription) {
+            return GLOBAL_ARENA.allocate(typeDescription);
+        }
 
-       private static native void mpz_mul_si(long dest, long src,
-             int val);
+        public static void main(String[] args) throws Throwable {
+            MemorySegment n1 = alloc(mpz_t),
+                    n2 = alloc(mpz_t),
+                    d = alloc(mpz_t),
+                    u = alloc(mpz_t),
+                    v = alloc(mpz_t),
+                    w = alloc(mpz_t);
+            int k = 1, k2, i = 0;
+            var n = Integer.parseInt(args[0]);
 
-       private static native void mpz_add(long dest, long src,
-             long src2);
+            __gmpz_init.invokeExact(u);
+            __gmpz_init.invokeExact(v);
 
-       private static native void mpz_tdiv_q(long dest, long src,
-             long src2);
+            __gmpz_init_set_si.invokeExact(w, 0L);
+            __gmpz_init_set_si.invokeExact(n1, 4L);
+            __gmpz_init_set_si.invokeExact(n2, 3L);
+            __gmpz_init_set_si.invokeExact(d, 1L);
 
-       private static native void mpz_set_si(long src, int value);
+            var outBuf = new StringBuilder();
 
-       private static native int mpz_get_si(long src);
+            for (; ; ) {
+                __gmpz_tdiv_q.invokeExact(u, n1, d);
+                __gmpz_tdiv_q.invokeExact(v, n2, d);
 
-       private static native double mpz_get_d(long src);
+                if ((int) __gmpz_cmp.invokeExact(u, v) == 0) {
+                    outBuf.append((long) __gmpz_get_si.invokeExact(u));
+                    i++;
+                    if (i % 10 == 0)
+                        outBuf.append("\t:").append(i).append("\n");
+                    if (i == n)
+                        break;
+
+                    // extract
+                    __gmpz_mul_si.invokeExact(u, u, -10L);
+                    __gmpz_mul.invokeExact(u, d, u);
+                    __gmpz_mul_si.invokeExact(n1, n1, 10L);
+                    __gmpz_add.invokeExact(n1, n1, u);
+                    __gmpz_mul_si.invokeExact(n2, n2, 10L);
+                    __gmpz_add.invokeExact(n2, n2, u);
+                } else {
+                    // produce
+                    k2 = k * 2;
+                    __gmpz_mul_si.invokeExact(u, n1, (long)(k2 - 1));
+                    __gmpz_add.invokeExact(v, n2, n2);
+                    __gmpz_mul_si.invokeExact(w, n1, (long)(k - 1));
+                    __gmpz_add.invokeExact(n1, u, v);
+                    __gmpz_mul_si.invokeExact(u, n2, (long)(k + 2));
+                    __gmpz_add.invokeExact(n2, w, u);
+                    __gmpz_mul_si.invokeExact(d, d, (long)(k2 + 1));
+                    k++;
+                }
+            }
+
+            if (i % 10 != 0)
+                outBuf.append(" ".repeat(10 - n % 10)).append("\t:").append(n).append("\n");
+
+            System.out.print(outBuf);
+        }
     }
 arguments: [10000]
+compile_options: [-server, --enable-preview, --release 25]
 expected_stdout: !!binary |
     MzE0MTU5MjY1Mwk6MTAKNTg5NzkzMjM4NAk6MjAKNjI2NDMzODMyNwk6MzAKOTUwMjg4NDE5Nwk6
     NDAKMTY5Mzk5Mzc1MQk6NTAKMDU4MjA5NzQ5NAk6NjAKNDU5MjMwNzgxNgk6NzAKNDA2Mjg2MjA4
