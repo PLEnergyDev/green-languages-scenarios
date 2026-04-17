@@ -1,11 +1,136 @@
 name: binary-trees
 language: rust
-code: | # 
+description: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/binarytrees.html#binarytrees
+    ## Background
+    A simplistic adaptation of [Hans Boehm's GCBench](http://hboehm.info/gc/gc_bench/), which in turn was adapted from a benchmark by John Ellis and Pete Kovac.
+    Thanks to Christophe Troestler and Einar Karttunen for help with this benchmark.
+
+    ## Variance
+    When possible, use default GC; otherwise use per node allocation or use a library memory pool.
+    As a practical matter, the myriad ways to tune GC will not be accepted.
+    As a practical matter, the myriad ways to custom allocate memory will not be accepted.
+    Please don't implement your own custom ["arena"](http://www.stroustrup.com/bs_faq2.html#placement-delete) or "memory pool" or "free list" - they will not be accepted.
+
+    ## The work
+    The work is to fully create perfect binary trees - before any tree nodes are GC'd - using at-minimum the number of allocations of [Jeremy Zerfas's C program](https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/binarytrees-gcc-3.html). Don't optimize away the work.
+    Leaf nodes must be the same as interior nodes - the same memory allocation. Don't optimize away the work.
+
+    ## How to implement
+    We ask that contributed programs not only give the correct result, but also **use the same algorithm** to calculate that result.
+    Each program should:
+    - define a tree node class and methods, or a tree node record and procedures, or an algebraic data type and functions, or…
+    - allocate a binary tree to 'stretch' memory, check it exists, and deallocate it
+    - allocate a long-lived binary tree which will live-on while other trees are allocated and deallocated
+    - allocate, walk, and deallocate many bottom-up binary trees
+        - allocate a tree
+        - walk the tree, counting the nodes (and maybe deallocate the nodes)
+        - deallocate the tree
+    - check that the long-lived binary tree still exists
+
+    **diff** program output N = 10 with this 1KB [output file](https://benchmarksgame-team.pages.debian.net/benchmarksgame/download/binarytrees-output.txt) to check your program output has the correct format, before you [contribute your program](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/blob/master/README.md).
+    Use a larger command line argument (21) to check program performance.
+    Thanks to Eamon Nerbonne for repeatedly showing what was wrong with the old way of checking these programs, and to Brad Chamberlain for suggesting that a simple check should work.
+code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/binarytrees-rust-5.html
+    // The Computer Language Benchmarks Game
+    // http://benchmarksgame.alioth.debian.org/
+    //
+    // contributed by the Rust Project Developers
+    // contributed by TeXitoi
+    // contributed by Cristi Cobzarenco
+    // contributed by Matt Brubeck
+    // modified by Tom Kaitchuck
+    // modified by Volodymyr M. Lisivka
+    // modified by Ryohei Machida
+
+    extern crate bumpalo;
+    extern crate rayon;
+
+    use bumpalo::Bump;
+    use rayon::prelude::*;
+
+    #[derive(Debug, PartialEq, Clone, Copy)]
+    struct Tree<'a> {
+        left: Option<&'a Tree<'a>>,
+        right: Option<&'a Tree<'a>>,
+    }
+
+    fn item_check(tree: &Tree) -> i32 {
+        if let (Some(left), Some(right)) = (tree.left, tree.right) {
+            1 + item_check(right) + item_check(left)
+        } else {
+            1
+        }
+    }
+
+    fn bottom_up_tree<'r>(arena: &'r Bump, depth: i32) -> &'r Tree<'r> {
+        let tree = arena.alloc(Tree { left: None, right: None });
+        if depth > 0 {
+            tree.right = Some(bottom_up_tree(arena, depth - 1));
+            tree.left = Some(bottom_up_tree(arena, depth - 1));
+        }
+        tree
+    }
+
+    fn inner(depth: i32, iterations: i32) -> String {
+        let chk: i32 = (0..iterations)
+            .into_par_iter()
+            .map(|_| {
+                let arena = Bump::new();
+                let a = bottom_up_tree(&arena, depth);
+                item_check(a)
+            })
+            .sum();
+        format!("{}\t trees of depth {}\t check: {}", iterations, depth, chk)
+    }
+
+    fn main() {
+        let n = std::env::args().nth(1).and_then(|n| n.parse().ok()).unwrap_or(10);
+        let min_depth = 4;
+        let max_depth = if min_depth + 2 > n { min_depth + 2 } else { n };
+
+        {
+            let arena = Bump::new();
+            let depth = max_depth + 1;
+            let tree = bottom_up_tree(&arena, depth);
+            println!(
+                "stretch tree of depth {}\t check: {}",
+                depth,
+                item_check(tree)
+            );
+        }
+
+        let long_lived_arena = Bump::new();
+        let long_lived_tree = bottom_up_tree(&long_lived_arena, max_depth);
+
+        let messages = (min_depth / 2..=max_depth / 2)
+            .into_par_iter()
+            .map(|half_depth| {
+                let depth = half_depth * 2;
+                let iterations = 1 << ((max_depth - depth + min_depth) as u32);
+                let res = inner(depth, iterations);
+                res
+            })
+            .collect::<Vec<_>>();
+
+        for message in messages {
+            println!("{}", message);
+        }
+
+        println!(
+            "long lived tree of depth {}\t check: {}",
+            max_depth,
+            item_check(long_lived_tree)
+        );
+    }
 arguments: [21]
 compile_options: [--release]
 dependencies:
+  - name: bumpalo
+    version: 3.20.2
+  - name: rayon
+    version: 1.12.0
 settings:
-    edition: "2024"
+    rustflags: "-C target-cpu=native -C codegen-units=1"
 expected_stdout: !!binary |
     c3RyZXRjaCB0cmVlIG9mIGRlcHRoIDIyCSBjaGVjazogODM4ODYwNwoyMDk3MTUyCSB0cmVlcyBv
     ZiBkZXB0aCA0CSBjaGVjazogNjUwMTE3MTIKNTI0Mjg4CSB0cmVlcyBvZiBkZXB0aCA2CSBjaGVj

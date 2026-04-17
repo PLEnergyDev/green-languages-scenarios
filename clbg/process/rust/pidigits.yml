@@ -1,10 +1,153 @@
 name: pidigits
 language: rust
-code: | # 
+description: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/pidigits.html#pidigits
+    ## Background
+    MathWorld: [Pi Digits.](http://mathworld.wolfram.com/PiDigits.html)
+    [HN discussion](https://news.ycombinator.com/item?id=25626720)
+
+    ## Variance
+    Some language implementations have arbitrary precision arithmetic built-in; some provide an arbitrary precision arithmetic library; some use a third-party library ([GMP](http://gmplib.org/)); some provide built-in arbitrary precision arithmetic by wrapping a third-party library.
+
+    ## The work
+    The work is to use aribitrary precision arithmetic and the same step-by-step single-threaded algorithm to generate digits of Pi. Do both extract(3) and extract(4). Don't optimize away the work.
+
+    ## How to implement
+    We ask that contributed programs not only give the correct result, but also **use the sequential algorithm** to calculate that result.
+    Each program should:
+    - calculate the first N digits of Pi
+    - print the digits 10-to-a-line, with the running total of digits calculated
+
+    **diff** program output N = 30 with this [output file](https://benchmarksgame-team.pages.debian.net/benchmarksgame/download/pidigits-output.txt) to check your program output has the correct format, before you [contribute your program.](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/blob/master/README.md)
+    Use a larger command line argument (10000) to check program performance.
+    Adapt the **step-by-step** algorithm given on pages 4,6 & 7 of [pdf 156KB] [Unbounded Spigot Algorithms for the Digits of Pi.](http://web.comlab.ox.ac.uk/oucl/work/jeremy.gibbons/publications/spigot.pdf) (**Not** the deliberately obscure version given on page 2. **Not** the Rabinowitz-Wagon algorithm.)
+code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/pidigits-rust-4.html
+    //! The Computer Language Benchmarks Game
+    //! https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+    //!
+    //! Contributed by TeXitoi
+    //! Contributed by Ryohei Machida
+    //!
+    //! ```cargo
+    //! [dependencies]
+    //! rug = { version = "1.12.0", default-features = false, features = ["integer"] }
+    //! ```
+
+    extern crate rug;
+
+    use rug::{Assign, Integer};
+    use std::cmp;
+    use std::io::Write;
+
+    pub struct Context {
+        q: Integer,
+        r: Integer,
+        t: Integer,
+        tmp1: Integer,
+        tmp2: Integer,
+        k: u32,
+    }
+
+    impl Context {
+        pub fn new() -> Context {
+            Context {
+                q: Integer::from(1),
+                r: Integer::from(0),
+                t: Integer::from(1),
+                tmp1: Integer::from(0),
+                tmp2: Integer::from(0),
+                k: 0,
+            }
+        }
+
+        pub fn next(&mut self) -> u8 {
+            loop {
+                self.next_term();
+                if self.q > self.r {
+                    continue;
+                }
+                let d = self.extract(3);
+                if d != self.extract(4) {
+                    continue;
+                }
+
+                self.produce(d);
+                return d;
+            }
+        }
+
+        fn next_term(&mut self) {
+            self.k += 1;
+            let k2 = self.k * 2 + 1;
+
+            self.tmp1.assign(&self.q << 1);
+            self.r += &self.tmp1;
+            self.r *= k2;
+            self.t *= k2;
+            self.q *= self.k;
+        }
+
+        #[inline]
+        fn extract(&mut self, nth: u32) -> u8 {
+            if nth.is_power_of_two() {
+                // use shift operation if possible
+                self.tmp1.assign(&self.q << nth.trailing_zeros());
+            } else {
+                self.tmp1.assign(&self.q * nth);
+            };
+
+            self.tmp2.assign(&self.tmp1 + &self.r);
+            self.tmp1.assign(&self.tmp2 / &self.t);
+            self.tmp1.to_u8().unwrap()
+        }
+
+        fn produce(&mut self, n: u8) {
+            self.q *= 10u8;
+            self.r -= &self.t * n;
+            self.r *= 10u8;
+        }
+    }
+
+    fn main() {
+        let n: usize = std::env::args_os()
+            .nth(1)
+            .and_then(|s| s.into_string().ok())
+            .and_then(|n| n.parse().ok())
+            .unwrap_or(27);
+
+        let mut ctx = Context::new();
+
+        // line buffer
+        let mut line_buf = [0u8; 12];
+        line_buf[10] = b'\t';
+        line_buf[11] = b':';
+
+        // output buffer
+        let mut output = Vec::with_capacity(n * 2);
+
+        for d in (0..n).step_by(10) {
+            let count = cmp::min(10, n - d);
+
+            for i in 0..count {
+                line_buf[i] = b'0' + ctx.next();
+            }
+
+            for i in count..10 {
+                line_buf[i] = b' ';
+            }
+
+            output.extend_from_slice(&line_buf);
+            let _ = writeln!(output, "{}", d + count);
+        }
+
+        let _ = std::io::stdout().write_all(&*output);
+    }
 arguments: [10000]
 compile_options: [--release]
 settings:
-    edition: "2024"
+    rustflags: "-C target-cpu=native -C codegen-units=1"
+dependencies:
+    - name: rug
+      version: 1.29.0
 expected_stdout: !!binary |
     MzE0MTU5MjY1Mwk6MTAKNTg5NzkzMjM4NAk6MjAKNjI2NDMzODMyNwk6MzAKOTUwMjg4NDE5Nwk6
     NDAKMTY5Mzk5Mzc1MQk6NTAKMDU4MjA5NzQ5NAk6NjAKNDU5MjMwNzgxNgk6NzAKNDA2Mjg2MjA4
