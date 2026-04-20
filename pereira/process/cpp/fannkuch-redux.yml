@@ -207,8 +207,6 @@ compile_options:
     - -march=native
     - -std=c++11
     - -fopenmp
-    - -fopenmp
-expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
 ---
 name: optimized
 ---

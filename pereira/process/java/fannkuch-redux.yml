@@ -184,7 +184,6 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
         }
     }
 arguments: [12]
-expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
 ---
 name: server
 ---

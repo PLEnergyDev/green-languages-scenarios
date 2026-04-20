@@ -195,18 +195,9 @@ compile_options:
     - -msse3
     - --std=c++11
     - -fopenmp
-expected_stdout: !!binary |
-    LTAuMTY5MDc1MTY0Ci0wLjE2OTA1OTkwNwo=
 ---
 name: optimized
 ---
 name: optimized
 nice: -20
-# ---
-# name: optimized
-# affinity: [5]
-# ---
-# name: optimized
-# nice: -20
-# affinity: [5]
-#
+

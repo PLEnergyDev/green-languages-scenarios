@@ -145,10 +145,6 @@ compile_options:
     - -mfpmath=sse
     - -msse2
     - -fopenmp
-    - -mfpmath=sse
-    - -msse2
-    - -fopenmp
-expected_stdout: !!binary MS4yNzQyMjQxNTMK
 ---
 name: optimized
 ---

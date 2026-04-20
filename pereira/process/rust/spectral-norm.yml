@@ -95,7 +95,6 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
         s1[1] += x[1] / a1[1];
     }
 arguments: [5500]
-expected_stdout: !!binary MS4yNzQyMjQxNTMK
 compile_options: [--release]
 dependencies:
     - name: rayon

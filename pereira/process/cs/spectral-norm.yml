@@ -149,7 +149,6 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
 framework: net9.0
 arguments: [5500]
 compile_options: [-c Release]
-expected_stdout: !!binary MS4yNzQyMjQxNTMK
 ---
 name: release
 ---

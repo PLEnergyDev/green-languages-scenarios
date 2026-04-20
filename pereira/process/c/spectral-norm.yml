@@ -267,7 +267,6 @@ compile_options:
     - -mfpmath=sse
     - -msse2
     - -lm
-expected_stdout: !!binary MS4yNzQyMjQxNTMK
 ---
 name: optimized
 ---

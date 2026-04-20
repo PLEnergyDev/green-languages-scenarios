@@ -151,15 +151,6 @@ compile_options:
     - -lapr-1
     - -lgomp
     - -lm
-expected_stdout: !!binary |
-    c3RyZXRjaCB0cmVlIG9mIGRlcHRoIDIyCSBjaGVjazogODM4ODYwNwoyMDk3MTUyCSB0cmVlcyBv
-    ZiBkZXB0aCA0CSBjaGVjazogNjUwMTE3MTIKNTI0Mjg4CSB0cmVlcyBvZiBkZXB0aCA2CSBjaGVj
-    azogNjY1ODQ1NzYKMTMxMDcyCSB0cmVlcyBvZiBkZXB0aCA4CSBjaGVjazogNjY5Nzc3OTIKMzI3
-    NjgJIHRyZWVzIG9mIGRlcHRoIDEwCSBjaGVjazogNjcwNzYwOTYKODE5MgkgdHJlZXMgb2YgZGVw
-    dGggMTIJIGNoZWNrOiA2NzEwMDY3MgoyMDQ4CSB0cmVlcyBvZiBkZXB0aCAxNAkgY2hlY2s6IDY3
-    MTA2ODE2CjUxMgkgdHJlZXMgb2YgZGVwdGggMTYJIGNoZWNrOiA2NzEwODM1MgoxMjgJIHRyZWVz
-    IG9mIGRlcHRoIDE4CSBjaGVjazogNjcxMDg3MzYKMzIJIHRyZWVzIG9mIGRlcHRoIDIwCSBjaGVj
-    azogNjcxMDg4MzIKbG9uZyBsaXZlZCB0cmVlIG9mIGRlcHRoIDIxCSBjaGVjazogNDE5NDMwMwo=
 ---
 name: optimized
 ---

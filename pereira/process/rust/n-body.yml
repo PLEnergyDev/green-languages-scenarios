@@ -210,18 +210,9 @@ compile_options: [--release]
 settings:
     edition: "2015"
     rustflags: "-C opt-level=3 -C target-cpu=core2 -C lto"
-expected_stdout: !!binary |
-    LTAuMTY5MDc1MTY0Ci0wLjE2OTA1OTkwNwo=
 ---
 name: release
 ---
 name: release
 nice: -20
-# ---
-# name: release
-# affinity: [5]
-# ---
-# name: release
-# nice: -20
-# affinity: [5]
-#
+

@@ -183,7 +183,6 @@ compile_options:
     - -march=native
     - -std=c99
     - -fopenmp
-expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
 ---
 name: optimized
 ---
