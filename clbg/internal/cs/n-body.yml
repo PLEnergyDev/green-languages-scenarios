@@ -144,7 +144,7 @@ compile_options:
     - -p:IlcInstructionSet=native
 expected_stdout: !!binary |
     LTAuMTY5MDc1MTY0Ci0wLjE2OTA1OTkwNwo=
-nice: -20
+niceness: -20
 affinity: [5]
 ---
 name: release

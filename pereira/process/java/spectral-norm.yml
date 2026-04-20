@@ -172,5 +172,5 @@ arguments: [5500]
 name: server
 ---
 name: server
-nice: -20
+niceness: -20
 

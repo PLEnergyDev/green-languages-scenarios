@@ -184,7 +184,7 @@ compile_options:
     - -p:OptimizationPreference=Speed
     - -p:IlcInstructionSet=native
 expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
-nice: -20
+niceness: -20
 ---
 name: server
 mode: internal

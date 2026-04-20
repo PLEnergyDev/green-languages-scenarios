@@ -360,5 +360,5 @@ compile_options:
 name: optimized
 ---
 name: optimized
-nice: -20
+niceness: -20
 

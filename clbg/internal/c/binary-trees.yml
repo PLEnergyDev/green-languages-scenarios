@@ -193,7 +193,7 @@ expected_stdout: !!binary |
     MTA2ODE2CjUxMgkgdHJlZXMgb2YgZGVwdGggMTYJIGNoZWNrOiA2NzEwODM1MgoxMjgJIHRyZWVz
     IG9mIGRlcHRoIDE4CSBjaGVjazogNjcxMDg3MzYKMzIJIHRyZWVzIG9mIGRlcHRoIDIwCSBjaGVj
     azogNjcxMDg4MzIKbG9uZyBsaXZlZCB0cmVlIG9mIGRlcHRoIDIxCSBjaGVjazogNDE5NDMwMwo=
-nice: -20
+niceness: -20
 ---
 name: optimized
 mode: internal

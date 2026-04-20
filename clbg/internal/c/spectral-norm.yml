@@ -275,7 +275,7 @@ compile_options:
     - -fopenmp
     - -lm
 expected_stdout: !!binary MS4yNzQyMjQxNTMK
-nice: -20
+niceness: -20
 ---
 name: optimized
 mode: internal

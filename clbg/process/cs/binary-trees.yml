@@ -138,5 +138,5 @@ expected_stdout: !!binary |
 name: release
 ---
 name: release
-nice: -20
+niceness: -20
 

@@ -84,5 +84,5 @@ arguments: [16000]
 name: server
 ---
 name: server
-nice: -20
+niceness: -20
 

@@ -177,5 +177,5 @@ expected_stdout: !!binary MS4yNzQyMjQxNTMK
 name: release
 ---
 name: release
-nice: -20
+niceness: -20
 

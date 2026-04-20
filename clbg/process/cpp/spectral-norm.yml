@@ -301,5 +301,5 @@ expected_stdout: !!binary MS4yNzQyMjQxNTMK
 name: optimized
 ---
 name: optimized
-nice: -20
+niceness: -20
 
