@@ -1,0 +1,13 @@
+[package]
+name = "program"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "program"
+path = "main.rs"
+
+[dependencies]
+rug = "1.29.0"
+
+[workspace]

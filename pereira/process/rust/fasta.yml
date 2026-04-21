@@ -51,7 +51,7 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
             self.count = count;
         }
 
-        fn generation(&mut self, buf: &mut [u32], cur_thread: u16) -> Result<usize,()> {
+        fn gen(&mut self, buf: &mut [u32], cur_thread: u16) -> Result<usize,()> {
 
             if self.next_thread_num != cur_thread {
                 return Err(())
@@ -129,7 +129,7 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
         let mut count;
         loop {
             loop {
-                if let Ok(x) = rng.lock().unwrap().generation(&mut rng_buf, thread_num) {
+                if let Ok(x) = rng.lock().unwrap().gen(&mut rng_buf, thread_num) {
                     count = x;
                     break;
                 }

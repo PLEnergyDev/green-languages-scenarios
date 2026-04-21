@@ -1,0 +1,5 @@
+scenario,language,test,niceness,affinity,mode,run,internal_run,time,pkg,cores,gpu,ram,psys,cycles,l1d_misses,l1i_misses,llc_misses,branch_misses,c1_core_residency,c3_core_residency,c6_core_residency,c7_core_residency,c2_pkg_residency,c3_pkg_residency,c6_pkg_residency,c8_pkg_residency,c10_pkg_residency,ended
+pidigits,rust,release,,,process,1,1,453818,,,,,,,,,,,,,,,,,,,,1776756466095601
+pidigits,rust,release,-20,,process,1,1,449229,,,,,,,,,,,,,,,,,,,,1776756466706928
+pidigits,rust,release,,5,process,1,1,478033,,,,,,,,,,,,,,,,,,,,1776756467349681
+pidigits,rust,release,-20,5,process,1,1,476145,,,,,,,,,,,,,,,,,,,,1776756467995054
