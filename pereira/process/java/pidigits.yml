@@ -146,4 +146,5 @@ name: server
 ---
 name: server
 niceness: -20
+affinity: [5]
 

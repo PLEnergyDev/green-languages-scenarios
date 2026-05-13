@@ -124,4 +124,5 @@ name: release
 ---
 name: release
 niceness: -20
+affinity: [5]
 

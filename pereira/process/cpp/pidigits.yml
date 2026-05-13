@@ -83,4 +83,5 @@ name: optimized
 ---
 name: optimized
 niceness: -20
+affinity: [5]
 
