@@ -220,9 +220,4 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/fa
 arguments: [12]
 compile_options: [-server]
 expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
----
-name: server
----
-name: server
-niceness: -20
 

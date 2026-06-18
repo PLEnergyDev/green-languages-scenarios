@@ -145,9 +145,4 @@ compile_options:
     - -mfpmath=sse
     - -msse2
     - -fopenmp
----
-name: optimized
----
-name: optimized
-niceness: -20
 

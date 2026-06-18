@@ -197,16 +197,4 @@ arguments: [50000000]
 compile_options: [-server]
 expected_stdout: !!binary |
     LTAuMTY5MDc1MTY0Ci0wLjE2OTA1OTkwNwo=
----
-name: server
----
-name: server
-niceness: -20
----
-name: server
-affinity: [5]
----
-name: server
-niceness: -20
-affinity: [5]
 

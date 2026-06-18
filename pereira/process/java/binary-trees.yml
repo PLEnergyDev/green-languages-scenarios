@@ -95,9 +95,4 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
 
     }
 arguments: [21]
----
-name: server
----
-name: server
-niceness: -20
 

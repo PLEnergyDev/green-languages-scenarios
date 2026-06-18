@@ -78,10 +78,4 @@ compile_options:
     - -std=c++14
     - -lgmp
     - -lgmpxx
----
-name: optimized
----
-name: optimized
-niceness: -20
-affinity: [5]
 

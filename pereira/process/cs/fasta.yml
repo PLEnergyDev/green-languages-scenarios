@@ -284,9 +284,4 @@ code: | # https://github.com/greensoftwarelab/Energy-Languages/blob/1356528173d6
 framework: net9.0
 arguments: [7000000]
 compile_options: [-c Release]
----
-name: release
----
-name: release
-niceness: -20
 

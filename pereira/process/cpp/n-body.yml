@@ -195,10 +195,4 @@ compile_options:
     - -msse3
     - --std=c++11
     - -fopenmp
----
-name: optimized
----
-name: optimized
-niceness: -20
-affinity: [5]
 

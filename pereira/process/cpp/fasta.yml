@@ -326,9 +326,4 @@ compile_options:
     - -std=c++11
     - -include functional
     - -lpthread
----
-name: optimized
----
-name: optimized
-niceness: -20
 

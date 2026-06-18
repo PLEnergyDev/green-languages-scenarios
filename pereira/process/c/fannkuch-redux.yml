@@ -183,9 +183,4 @@ compile_options:
     - -march=native
     - -std=c99
     - -fopenmp
----
-name: optimized
----
-name: optimized
-niceness: -20
 

@@ -165,16 +165,4 @@ compile_options:
     - -lm
 expected_stdout: !!binary |
     LTAuMTY5MDc1MTY0Ci0wLjE2OTA1OTkwNwo=
----
-name: optimized
----
-name: optimized
-niceness: -20
----
-name: optimized
-affinity: [5]
----
-name: optimized
-niceness: -20
-affinity: [5]
 

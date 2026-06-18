@@ -141,10 +141,4 @@ code: | # https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/pi
     }
 arguments: [10000]
 compile_options: [-server, --enable-preview, --release 25]
----
-name: server
----
-name: server
-niceness: -20
-affinity: [5]
 

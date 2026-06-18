@@ -171,10 +171,4 @@ compile_options:
     - -mfpmath=sse
     - -msse3
     - -lm
----
-name: optimized
----
-name: optimized
-niceness: -20
-affinity: [5]
 

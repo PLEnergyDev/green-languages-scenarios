@@ -173,9 +173,4 @@ compile_options:
     - -p:OptimizationPreference=Speed
     - -p:IlcInstructionSet=native
 expected_stdout: !!binary MS4yNzQyMjQxNTMK
----
-name: release
----
-name: release
-niceness: -20
 

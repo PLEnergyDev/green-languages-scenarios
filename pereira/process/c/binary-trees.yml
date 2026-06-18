@@ -151,9 +151,4 @@ compile_options:
     - -lapr-1
     - -lgomp
     - -lm
----
-name: optimized
----
-name: optimized
-niceness: -20
 

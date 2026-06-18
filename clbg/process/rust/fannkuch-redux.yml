@@ -188,9 +188,4 @@ dependencies:
 settings:
     rustflags: "-C target-cpu=native -C codegen-units=1"
 expected_stdout: !!binary Mzk2ODA1MApQZmFubmt1Y2hlbigxMikgPSA2NQo=
----
-name: release
----
-name: release
-niceness: -20
 

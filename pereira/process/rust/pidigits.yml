@@ -178,10 +178,4 @@ compile_options: [--release]
 settings:
     edition: "2015"
     rustflags: "-C opt-level=3 -C target-cpu=core2 -C lto"
----
-name: release
----
-name: release
-niceness: -20
-affinity: [5]
 

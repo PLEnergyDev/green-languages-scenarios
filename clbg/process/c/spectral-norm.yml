@@ -278,9 +278,4 @@ compile_options:
     - -fopenmp
     - -lm
 expected_stdout: !!binary MS4yNzQyMjQxNTMK
----
-name: optimized
----
-name: optimized
-niceness: -20
 
